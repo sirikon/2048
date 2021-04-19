@@ -5,7 +5,7 @@ function render() {
     for(let y = 0; y < BOARD_SIZE.h; y++) {
         const row = document.createElement('div');
         for(let x = 0; x < BOARD_SIZE.w; x++) {
-            const i = x + (y * BOARD_SIZE.w);
+            const i = getPositionByCoordinate(x, y);
             const cell = document.createElement('div');
             cell.classList.add('cell');
             cell.textContent = cells[i] ? cells[i].value : '';

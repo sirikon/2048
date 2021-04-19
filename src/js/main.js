@@ -55,6 +55,10 @@ function getRandomNewCellValue() {
     return resultValue;
 }
 
+function getPositionByCoordinate(x, y) {
+    return x + (y * BOARD_SIZE.w);
+}
+
 function getRandomAvailablePosition() {
     const availablePositions = getAvailablePositions();
     if (availablePositions.length === 0) return null;
