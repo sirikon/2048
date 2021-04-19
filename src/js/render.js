@@ -1,7 +1,6 @@
 function render() {
     const gameElement = document.getElementById('game');
     gameElement.innerHTML = '';
-    const maxPosition = getMaxPosition();
 
     for(let y = 0; y < BOARD_SIZE.h; y++) {
         const row = document.createElement('div');
