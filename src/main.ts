@@ -16,19 +16,19 @@ function restartBoard() {
 }
 
 function createInitialCells() {
-    for(let i = 0; i < config.NEW_CELLS_AT_START; i++) { createRandomNewCell(); }
+    for(let i = 0; i < config.newCellsAtStart; i++) { createRandomNewCell(); }
 }
 
 function createRandomNewCell() {
-    getCells()[getRandomAvailablePosition()] = {
-        value: getRandomNewCellValue(),
-        transitionTo: null,
-        evolveTo: null
+    const randomAvailablePosition = getRandomAvailablePosition();
+    if (randomAvailablePosition == null) return;
+    getCells()[randomAvailablePosition] = {
+        value: getRandomNewCellValue()
     }
 }
 
-function getRandomNewCellValue() {
-    const allChances = config.NEW_CELL_POSSIBLE_VALUES
+function getRandomNewCellValue(): number {
+    const allChances = config.newCellPossibleValues
         .map(([_, chances]) => chances)
         .reduce((c, v) => c + v, 0);
 
@@ -37,7 +37,7 @@ function getRandomNewCellValue() {
     let resultValue = null;
     let i = 0;
     while(resultValue === null) {
-        const [value, chances] = config.NEW_CELL_POSSIBLE_VALUES[i];
+        const [value, chances] = config.newCellPossibleValues[i];
         pick = pick - chances;
         if (pick <= 0) {
             resultValue = value;
@@ -49,7 +49,7 @@ function getRandomNewCellValue() {
     return resultValue;
 }
 
-function getRandomAvailablePosition() {
+function getRandomAvailablePosition(): number | null {
     const availablePositions = getAvailablePositions();
     if (availablePositions.length === 0) return null;
     return availablePositions[Math.floor(Math.random() * availablePositions.length)];

@@ -1,13 +1,17 @@
 import config from './config';
 
-const cells = [];
+export interface Cell {
+    value: number
+}
+
+const cells = new Array<Cell>();
 
 export function getCells() {
     return cells;
 }
 
-export function getPositionByCoordinate(x, y) {
-    return x + (y * config.BOARD_SIZE.w);
+export function getPositionByCoordinate(x: number, y: number) {
+    return x + (y * config.boardSize.w);
 }
 
 export function getAvailablePositions() {
@@ -20,7 +24,7 @@ export function getPossiblePositions() {
 }
 
 export function getMaxPosition() {
-    return config.BOARD_SIZE.w * config.BOARD_SIZE.h;
+    return config.boardSize.w * config.boardSize.h;
 }
 
 export function emptyCells() {
