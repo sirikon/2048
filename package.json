@@ -4,6 +4,7 @@
         "build": "teseract build"
     },
     "devDependencies": {
+        "sass": "^1.32.11",
         "teseract": "git://github.com/sirikon/teseract.git",
         "typescript": "^4.2.4"
     }
