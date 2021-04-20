@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "start": "teseract serve"
+    },
+    "devDependencies": {
+        "teseract": "git://github.com/sirikon/teseract.git"
+    }
+}
