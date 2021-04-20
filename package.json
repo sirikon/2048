@@ -1,8 +1,10 @@
 {
     "scripts": {
-        "start": "teseract serve"
+        "start": "teseract serve",
+        "build": "teseract build"
     },
     "devDependencies": {
-        "teseract": "git://github.com/sirikon/teseract.git"
+        "teseract": "git://github.com/sirikon/teseract.git",
+        "typescript": "^4.2.4"
     }
 }
