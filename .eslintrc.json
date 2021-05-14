@@ -28,9 +28,6 @@
             "error",
             "single"
         ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        "semi": [0]
     }
 }

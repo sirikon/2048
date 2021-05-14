@@ -1,8 +1,5 @@
 import config from './config';
-
-export interface Cell {
-    value: number
-}
+import Cell from './models/Cell';
 
 const cells = new Array<Cell>();
 
