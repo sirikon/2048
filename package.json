@@ -1,7 +1,9 @@
 {
     "scripts": {
         "start": "teseract serve",
-        "build": "teseract build",
+        "lint": "teseract lint",
+        "lint:fix": "teseract lint --fix",
+        "release": "teseract release",
         "test": "teseract test"
     },
     "devDependencies": {
