@@ -2,7 +2,7 @@
 
 import config from './game/config';
 import { render } from './game/render';
-import { getCells, emptyCells, getAvailablePositions } from './game/state';
+import { getBoard, resetBoard, getAvailablePositions } from './game/state/board';
 
 
 function main() {
@@ -11,7 +11,7 @@ function main() {
 }
 
 function restartBoard() {
-	emptyCells();
+	resetBoard();
 	createInitialCells();
 }
 
@@ -22,14 +22,15 @@ function createInitialCells() {
 function createRandomNewCell() {
 	const randomAvailablePosition = getRandomAvailablePosition();
 	if (randomAvailablePosition == null) return;
-	getCells()[randomAvailablePosition] = {
+
+	getBoard()[randomAvailablePosition].push({
 		value: getRandomNewCellValue()
-	};
+	});
 }
 
 function getRandomNewCellValue(): number {
 	const allChances = config.newCellPossibleValues
-		.map((_) => _[1])
+		.map((pv) => pv.chances)
 		.reduce((c, v) => c + v, 0);
 
 	let pick = Math.random() * allChances;
@@ -37,7 +38,7 @@ function getRandomNewCellValue(): number {
 	let resultValue = null;
 	let i = 0;
 	while(resultValue === null) {
-		const [value, chances] = config.newCellPossibleValues[i];
+		const { value, chances } = config.newCellPossibleValues[i];
 		pick = pick - chances;
 		if (pick <= 0) {
 			resultValue = value;
