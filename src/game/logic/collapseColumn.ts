@@ -1,6 +1,6 @@
 import Cell from '../models/Cell'
 
-export function columnCollapse(column: Cell[][]): Cell[][] {
+export function collapseColumn(column: Cell[][]): Cell[][] {
 	const result: Cell[][] = [];
 
 	for(let i = 0; i < column.length; i++) {

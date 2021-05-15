@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { columnCollapse } from '../../../src/game/logic/columnCollapse'
+import { collapseColumn } from '../../../src/game/logic/collapseColumn'
 import Cell from '../../../src/game/models/Cell';
 
 describe('Column Collapse', () => {
@@ -119,5 +119,5 @@ describe('Column Collapse', () => {
 })
 
 function assertColumnCollapse(input: Cell[][], output: Cell[][]) {
-	expect(columnCollapse(input)).to.deep.equal(output);
+	expect(collapseColumn(input)).to.deep.equal(output);
 }
