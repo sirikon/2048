@@ -1,7 +1,6 @@
 import config from './config';
 import { getBoard, getPositionByCoordinate } from './state/board';
 
-
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 

@@ -1,4 +1,10 @@
 body {
+    // https://meta.stackexchange.com/questions/364048/we-are-switching-to-system-fonts-on-may-10-2021
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, // San Francisco on macOS and iOS
+        "Segoe UI", // Windows
+        "Ubuntu", // Ubuntu
+        "Roboto", "Noto Sans", "Droid Sans", // Chrome OS and Android with fallbacks
+        sans-serif; // The final fallback for rendering in sans-serif.
     background-color: whitesmoke;
     display: flex;
     flex-direction: column;
@@ -9,7 +15,7 @@ body {
     margin: auto;
 }
 
-.footer {
+footer {
     margin-top: 1em;
     text-align: center;
 }
