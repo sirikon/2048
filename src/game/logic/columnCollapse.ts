@@ -4,10 +4,8 @@ export function columnCollapse(column: Cell[][]): Cell[][] {
 	const result: Cell[][] = [];
 
 	for(let i = 0; i < column.length; i++) {
-		const cells = column[i];
-		if (cells.length === 0) continue;
-		const topCell = cells[0];
-
+		const topCell = getTopCell(column, i);
+		if (topCell == null) continue;
 		const nextTopCell = getNextTopCell(column, i);
 
 		if (nextTopCell != null && nextTopCell.cell.value === topCell.value) {
@@ -18,7 +16,14 @@ export function columnCollapse(column: Cell[][]): Cell[][] {
 		}
 	}
 
-	return result.concat(Array(column.length - result.length).fill(() => []).map(f => f()));
+	const remaining = generateEmptyColumn(column.length - result.length);
+	return result.concat(remaining);
+}
+
+function getTopCell(column: Cell[][], position: number): Cell | null {
+	const cells = column[position];
+	if (cells.length === 0) return null;
+	return cells[0];
 }
 
 function getNextTopCell(column: Cell[][], position: number): { cell: Cell, distance: number } | null {
@@ -29,4 +34,10 @@ function getNextTopCell(column: Cell[][], position: number): { cell: Cell, dista
 		i++;
 	}
 	return null;
+}
+
+function generateEmptyColumn(size: number) {
+	return  Array(size)
+		.fill(() => [])
+		.map(f => f());
 }
