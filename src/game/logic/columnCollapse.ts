@@ -1,5 +1,5 @@
 import Cell from '../models/Cell'
 
-export function columnCollapse(values: Cell[][]): Cell[][] {
-	return values;
+export function columnCollapse(column: Cell[][]): Cell[][] {
+	return column;
 }
