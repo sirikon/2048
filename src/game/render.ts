@@ -10,6 +10,7 @@ export function render(): void {
 		w: ( (canvas.width - (tileGridSize.border * (config.boardSize.w + 1))) / config.boardSize.w),
 		h: ( (canvas.height - (tileGridSize.border * (config.boardSize.h + 1))) / config.boardSize.h),
 	};
+	const textSize = 38 * window.devicePixelRatio;
 	clearCanvas();
 	const board = getBoard();
 	for(let y = 0; y < config.boardSize.h; y++) {
@@ -30,7 +31,7 @@ export function render(): void {
 			const tileTextY = tileY + (tileSize.h / 2);
 
 			ctx.fillStyle = 'black';
-			ctx.font = '38px Arial';
+			ctx.font = `${textSize}px Arial`;
 			ctx.textBaseline = 'middle';
 			ctx.textAlign = 'center';
 			ctx.fillText(value.toString(), tileTextX, tileTextY, tileSize.w);
@@ -41,8 +42,10 @@ export function render(): void {
 function setupCanvas() {
 	const canvasSize = { w: 500, h: 500 };
 	canvas = document.getElementById('game') as HTMLCanvasElement;
-	canvas.width = canvasSize.w;
-	canvas.height = canvasSize.h;
+	canvas.width = canvasSize.w * window.devicePixelRatio;
+	canvas.height = canvasSize.h * window.devicePixelRatio;
+	canvas.style.width = canvasSize.w + 'px';
+	canvas.style.height = canvasSize.h + 'px';
 	ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 }
 
@@ -50,4 +53,12 @@ function clearCanvas() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+function listenResize() {
+	window.addEventListener('resize', () => {
+		setupCanvas();
+		render();
+	});
+}
+
+listenResize();
 setupCanvas();
