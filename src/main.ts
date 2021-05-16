@@ -1,13 +1,14 @@
 'use strict';
 
 import config from './game/config';
+import { loop } from './game/loop'
 import { collapseColumn } from './game/logic/collapseColumn';
-import { render } from './game/render';
+import { Cell } from './game/models/Cell';
 import { getBoard, resetBoard, getAvailablePositions, getPositionByCoordinate } from './game/state/board';
 
 function main() {
+	loop();
 	restartBoard();
-	render();
 
 	window.addEventListener('keydown', (e) => {
 		if (keyHandlers[e.key]) {
@@ -26,7 +27,6 @@ const keyHandlers: { [key: string]: () => void } = {
 			collapsePositions(positions);
 		}
 		createRandomNewCell();
-		render();
 	},
 	ArrowDown: () => {
 		for(let x = 0; x < config.boardSize.w; x++) {
@@ -37,7 +37,6 @@ const keyHandlers: { [key: string]: () => void } = {
 			collapsePositions(positions);
 		}
 		createRandomNewCell();
-		render();
 	},
 	ArrowLeft: () => {
 		for(let y = 0; y < config.boardSize.h; y++) {
@@ -48,7 +47,6 @@ const keyHandlers: { [key: string]: () => void } = {
 			collapsePositions(positions);
 		}
 		createRandomNewCell();
-		render();
 	},
 	ArrowRight: () => {
 		for(let y = 0; y < config.boardSize.h; y++) {
@@ -59,7 +57,6 @@ const keyHandlers: { [key: string]: () => void } = {
 			collapsePositions(positions);
 		}
 		createRandomNewCell();
-		render();
 	}
 }
 
@@ -67,7 +64,17 @@ function collapsePositions(positions: number[]) {
 	const board = getBoard();
 	const column = collapseColumn(positions.map(p => board[p]));
 	for(let i = 0; i < positions.length; i++) {
-		board[positions[i]] = column[i];
+
+		board[positions[i]] =column[i].map(c => {
+			const result: Cell = {
+				value: c.value,
+				transitions: {
+					...( c.fromValue != null ? { fromValue: { value: c.fromValue, progress: 0 } } : {} ),
+					fromPosition: { position: positions[c.fromIndex], progress: 0 }
+				}
+			}
+			return result;
+		});
 	}
 }
 
@@ -85,7 +92,10 @@ function createRandomNewCell() {
 	if (randomAvailablePosition == null) return;
 
 	getBoard()[randomAvailablePosition].push({
-		value: getRandomNewCellValue()
+		value: getRandomNewCellValue(),
+		transitions: {
+			appear: { progress: 0 }
+		}
 	});
 }
 

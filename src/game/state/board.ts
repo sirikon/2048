@@ -1,5 +1,5 @@
 import config from '../config';
-import Cell from '../models/Cell';
+import { Cell } from '../models/Cell';
 
 const board: Cell[][] = [];
 
@@ -9,6 +9,13 @@ export function getBoard(): Cell[][] {
 
 export function getPositionByCoordinate(x: number, y: number): number {
 	return x + (y * config.boardSize.w);
+}
+
+export function getCoordinateByPosition(position: number): { x: number, y: number } {
+	if (position === 0) { return { x: 0, y: 0 } }
+	const x = position % config.boardSize.w;
+	const y = Math.floor(position / config.boardSize.w);
+	return { x, y };
 }
 
 export function getAvailablePositions(): number[] {

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { collapseColumn } from '../../../src/game/logic/collapseColumn'
-import Cell from '../../../src/game/models/Cell';
+import { collapseColumn, CollapsedCell } from '../../../src/game/logic/collapseColumn'
+import { BaseCell } from '../../../src/game/models/Cell';
 
 describe('Column Collapse', () => {
 	
@@ -18,7 +18,7 @@ describe('Column Collapse', () => {
 		assertColumnCollapse([
 			[{ value: 2 }], [], [], []
 		], [
-			[{ value: 2 }], [], [], []
+			[{ value: 2, fromIndex: 0 }], [], [], []
 		])
 	});
 
@@ -26,19 +26,19 @@ describe('Column Collapse', () => {
 		assertColumnCollapse([
 			[{ value: 2 }], [], [], []
 		], [
-			[{ value: 2 }], [], [], []
+			[{ value: 2, fromIndex: 0 }], [], [], []
 		])
 
 		assertColumnCollapse([
 			[], [{ value: 2 }], [], []
 		], [
-			[{ value: 2 }], [], [], []
+			[{ value: 2, fromIndex: 1 }], [], [], []
 		])
 
 		assertColumnCollapse([
 			[], [], [], [{ value: 2 }]
 		], [
-			[{ value: 2 }], [], [], []
+			[{ value: 2, fromIndex: 3 }], [], [], []
 		])
 	});
 
@@ -46,25 +46,25 @@ describe('Column Collapse', () => {
 		assertColumnCollapse([
 			[{ value: 2 }], [{ value: 4 }], [], []
 		], [
-			[{ value: 2 }], [{ value: 4 }], [], []
+			[{ value: 2, fromIndex: 0 }], [{ value: 4, fromIndex: 1 }], [], []
 		])
 
 		assertColumnCollapse([
 			[{ value: 2 }], [], [], [{ value: 4 }]
 		], [
-			[{ value: 2 }], [{ value: 4 }], [], []
+			[{ value: 2, fromIndex: 0 }], [{ value: 4, fromIndex: 3 }], [], []
 		])
 
 		assertColumnCollapse([
 			[], [{ value: 2 }], [], [{ value: 4 }]
 		], [
-			[{ value: 2 }], [{ value: 4 }], [], []
+			[{ value: 2, fromIndex: 1 }], [{ value: 4, fromIndex: 3 }], [], []
 		])
 
 		assertColumnCollapse([
 			[], [], [{ value: 2 }], [{ value: 4 }]
 		], [
-			[{ value: 2 }], [{ value: 4 }], [], []
+			[{ value: 2, fromIndex: 2 }], [{ value: 4, fromIndex: 3 }], [], []
 		])
 	});
 
@@ -72,25 +72,25 @@ describe('Column Collapse', () => {
 		assertColumnCollapse([
 			[{ value: 2 }], [{ value: 2 }], [], []
 		], [
-			[{ value: 4 }], [], [], []
+			[{ value: 4, fromIndex: 0, fromValue: 2 }, { value: 2, fromIndex: 1 }], [], [], []
 		])
 
 		assertColumnCollapse([
 			[], [], [{ value: 2 }], [{ value: 2 }]
 		], [
-			[{ value: 4 }], [], [], []
+			[{ value: 4, fromIndex: 2, fromValue: 2 }, { value: 2, fromIndex: 3 }], [], [], []
 		])
 
 		assertColumnCollapse([
 			[{ value: 2 }], [], [], [{ value: 2 }]
 		], [
-			[{ value: 4 }], [], [], []
+			[{ value: 4, fromIndex: 0, fromValue: 2 }, { value: 2, fromIndex: 3 }], [], [], []
 		])
 
 		assertColumnCollapse([
 			[{ value: 2 }], [], [{ value: 4 }], [{ value: 2 }]
 		], [
-			[{ value: 2 }], [{ value: 4 }], [{ value: 2 }], []
+			[{ value: 2, fromIndex: 0 }], [{ value: 4, fromIndex: 2 }], [{ value: 2, fromIndex: 3 }], []
 		])
 	});
 
@@ -98,7 +98,7 @@ describe('Column Collapse', () => {
 		assertColumnCollapse([
 			[{ value: 2 }], [{ value: 2 }], [{ value: 2 }], [{ value: 2 }]
 		], [
-			[{ value: 4 }], [{ value: 4 }], [], []
+			[{ value: 4, fromIndex: 0, fromValue: 2 }, { value: 2, fromIndex: 1 }], [{ value: 4, fromIndex: 2, fromValue: 2 }, { value: 2, fromIndex: 3 }], [], []
 		])
 	});
 
@@ -106,18 +106,18 @@ describe('Column Collapse', () => {
 		assertColumnCollapse([
 			[], [{ value: 4 }], [{ value: 2 }], [{ value: 2 }]
 		], [
-			[{ value: 4 }], [{ value: 4 }], [], []
+			[{ value: 4, fromIndex: 1 }], [{ value: 4, fromIndex: 2, fromValue: 2 }, { value: 2, fromIndex: 3 }], [], []
 		])
 
 		assertColumnCollapse([
 			[], [{ value: 2 }], [{ value: 2 }], [{ value: 4 }]
 		], [
-			[{ value: 4 }], [{ value: 4 }], [], []
+			[{ value: 4, fromIndex: 1, fromValue: 2 }, { value: 2, fromIndex: 2 }], [{ value: 4, fromIndex: 3 }], [], []
 		])
 	});
 
 })
 
-function assertColumnCollapse(input: Cell[][], output: Cell[][]) {
+function assertColumnCollapse(input: BaseCell[][], output: CollapsedCell[][]) {
 	expect(collapseColumn(input)).to.deep.equal(output);
 }

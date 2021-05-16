@@ -7,7 +7,8 @@ import {
 	getMaxPosition,
 	getAvailablePositions,
 	getPossiblePositions,
-	resetBoard
+	resetBoard,
+	getCoordinateByPosition
 } from '../../../src/game/state/board';
 
 describe('State', () => {
@@ -19,6 +20,14 @@ describe('State', () => {
 		expect(getPositionByCoordinate(1, 2)).to.equal(9);
 		expect(getPositionByCoordinate(3, 3)).to.equal(15);
 	});
+
+	it('#getCoordinateByPosition', () => {
+		expect(getCoordinateByPosition(0)).to.deep.equal({ x: 0, y: 0 });
+		expect(getCoordinateByPosition(3)).to.deep.equal({ x: 3, y: 0 });
+		expect(getCoordinateByPosition(4)).to.deep.equal({ x: 0, y: 1 });
+		expect(getCoordinateByPosition(9)).to.deep.equal({ x: 1, y: 2 });
+		expect(getCoordinateByPosition(15)).to.deep.equal({ x: 3, y: 3 });
+	})
 
 	it('#getMaxPosition', () => {
 		expect(getMaxPosition()).to.equal( (config.boardSize.h * config.boardSize.w)-1 );

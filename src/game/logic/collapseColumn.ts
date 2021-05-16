@@ -1,7 +1,12 @@
-import Cell from '../models/Cell'
+import { BaseCell } from '../models/Cell'
 
-export function collapseColumn(column: Cell[][]): Cell[][] {
-	const result: Cell[][] = [];
+export interface CollapsedCell extends BaseCell {
+	fromIndex: number;
+	fromValue?: number;
+}
+
+export function collapseColumn(column: BaseCell[][]): CollapsedCell[][] {
+	const result: CollapsedCell[][] = [];
 
 	for(let i = 0; i < column.length; i++) {
 		const topCell = getTopCell(column, i);
@@ -9,10 +14,13 @@ export function collapseColumn(column: Cell[][]): Cell[][] {
 		const nextTopCell = getNextTopCell(column, i);
 
 		if (nextTopCell != null && nextTopCell.cell.value === topCell.value) {
-			result.push([{ ...topCell, value: topCell.value*2 }])
+			result.push([
+				{ value: topCell.value*2, fromIndex: i, fromValue: topCell.value },
+				{ value: nextTopCell.cell.value, fromIndex: i + nextTopCell.distance }
+			])
 			i += nextTopCell.distance;
 		} else {
-			result.push([topCell]);
+			result.push([{ value: topCell.value, fromIndex: i }]);
 		}
 	}
 
@@ -20,13 +28,13 @@ export function collapseColumn(column: Cell[][]): Cell[][] {
 	return result.concat(remaining);
 }
 
-function getTopCell(column: Cell[][], position: number): Cell | null {
+function getTopCell(column: BaseCell[][], position: number): BaseCell | null {
 	const cells = column[position];
 	if (cells.length === 0) return null;
 	return cells[0];
 }
 
-function getNextTopCell(column: Cell[][], position: number): { cell: Cell, distance: number } | null {
+function getNextTopCell(column: BaseCell[][], position: number): { cell: BaseCell, distance: number } | null {
 	let i = 1;
 	while((i+position) < column.length) {
 		const cells = column[i+position];
