@@ -20,6 +20,9 @@ npm install
 npm start
 # Visit http://127.0.0.1:8080 on your browser.
 
+# Run unit tests
+npm test
+
 # Create a release build
 npm run release
 # Output will be generated in 'dist' folder.
