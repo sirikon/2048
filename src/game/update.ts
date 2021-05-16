@@ -10,8 +10,7 @@ export function update(dt: number): void {
 }
 
 function eachCell(cb: (c: Cell) => void) {
-	const board = getBoard();
-	for(const tile of board) {
+	for(const tile of getBoard()) {
 		for(const cell of tile) { cb(cell) }
 	}
 }
