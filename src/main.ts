@@ -19,53 +19,56 @@ function main() {
 
 const keyHandlers: { [key: string]: () => void } = {
 	ArrowUp: () => {
+		let changed = false;
 		for(let x = 0; x < config.boardSize.w; x++) {
 			const positions = [];
 			for(let y = 0; y < config.boardSize.h; y++) {
 				positions.push(getPositionByCoordinate(x, y))
 			}
-			collapsePositions(positions);
+			if (collapsePositions(positions)) changed = true;
 		}
-		createRandomNewCell();
+		changed && createRandomNewCell();
 	},
 	ArrowDown: () => {
+		let changed = false;
 		for(let x = 0; x < config.boardSize.w; x++) {
 			const positions = [];
 			for(let y = config.boardSize.h-1; y >= 0; y--) {
 				positions.push(getPositionByCoordinate(x, y))
 			}
-			collapsePositions(positions);
+			if (collapsePositions(positions)) changed = true;
 		}
-		createRandomNewCell();
+		changed && createRandomNewCell();
 	},
 	ArrowLeft: () => {
+		let changed = false;
 		for(let y = 0; y < config.boardSize.h; y++) {
 			const positions = [];
 			for(let x = 0; x < config.boardSize.w; x++) {
 				positions.push(getPositionByCoordinate(x, y))
 			}
-			collapsePositions(positions);
+			if (collapsePositions(positions)) changed = true;
 		}
-		createRandomNewCell();
+		changed && createRandomNewCell();
 	},
 	ArrowRight: () => {
+		let changed = false;
 		for(let y = 0; y < config.boardSize.h; y++) {
 			const positions = [];
 			for(let x = config.boardSize.w-1; x >= 0; x--) {
 				positions.push(getPositionByCoordinate(x, y))
 			}
-			collapsePositions(positions);
+			if (collapsePositions(positions)) changed = true;
 		}
-		createRandomNewCell();
+		changed && createRandomNewCell();
 	}
 }
 
-function collapsePositions(positions: number[]) {
+function collapsePositions(positions: number[]): boolean {
 	const board = getBoard();
-	const column = collapseColumn(positions.map(p => board[p]));
+	const { cells: column, changed } = collapseColumn(positions.map(p => board[p]));
 	for(let i = 0; i < positions.length; i++) {
-
-		board[positions[i]] =column[i].map(c => {
+		board[positions[i]] = column[i].map(c => {
 			const result: Cell = {
 				value: c.value,
 				transitions: {
@@ -76,6 +79,7 @@ function collapsePositions(positions: number[]) {
 			return result;
 		});
 	}
+	return changed;
 }
 
 function restartBoard() {

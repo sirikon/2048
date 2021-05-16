@@ -4,6 +4,20 @@ import { getBoard, getCoordinateByPosition, getPositionByCoordinate } from './st
 
 const tileGridSize = { border: 10 };
 
+const tileColors: { [key: number]: string } = {
+	2: '245, 245, 220',
+	4: '245, 245, 220',
+	8: '245, 245, 220',
+	16: '245, 245, 220',
+	32: '245, 245, 220',
+	64: '245, 245, 220',
+	128: '245, 245, 220',
+	256: '245, 245, 220',
+	512: '245, 245, 220',
+	1024: '245, 245, 220',
+	2048: '245, 245, 220'
+}
+
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 
@@ -65,7 +79,8 @@ function getCellBackgroundColor(cell: Cell): string {
 	const progress = cell.transitions?.appear
 		? cell.transitions.appear.progress
 		: 1;
-	return `rgba(245, 245, 220, ${Math.max(linear(-1, 1, progress), 0)})`;
+	const color = tileColors[Math.min(cell.value, 2048)];
+	return `rgba(${color}, ${Math.max(linear(-1, 1, progress), 0)})`;
 }
 
 function getCellTextColor(cell: Cell): string {
