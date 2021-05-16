@@ -8,12 +8,12 @@ export function update(deltaTime: number): void {
 			if (cell.transitions) {
 
 				if (cell.transitions.fromValue) {
-					cell.transitions.fromValue.progress = between(0, cell.transitions.fromValue.progress += (deltaTime * 0.01), 1)
+					cell.transitions.fromValue.progress = between(0, cell.transitions.fromValue.progress += (deltaTime * 0.005), 1)
 					if (cell.transitions.fromValue.progress === 1) delete cell.transitions.fromValue;
 				}
 
 				if (cell.transitions.fromPosition) {
-					cell.transitions.fromPosition.progress = between(0, cell.transitions.fromPosition.progress += (deltaTime * 0.01), 1);
+					cell.transitions.fromPosition.progress = between(0, cell.transitions.fromPosition.progress += (deltaTime * 0.005), 1);
 					if (cell.transitions.fromPosition.progress === 1) delete cell.transitions.fromPosition;
 				}
 

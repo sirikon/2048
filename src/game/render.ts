@@ -1,6 +1,7 @@
 import config from './config';
 import { Cell } from './models/Cell';
 import { getBoard, getCoordinateByPosition, getPositionByCoordinate } from './state/board';
+import { interpolate, easeOutElastic, linear, easeOutBack } from './utils/easings';
 
 const tileGridSize = { border: 10 };
 
@@ -70,8 +71,8 @@ function getCellRenderPosition(cell: Cell, x: number, y: number): { tileX: numbe
 	const fromTile = getTilePositionByCoordinate(fromCoordinates.x, fromCoordinates.y);
 
 	return {
-		tileX: linear(fromTile.tileX, tileX, progress),
-		tileY: linear(fromTile.tileY, tileY, progress),
+		tileX: interpolate(easeOutBack, fromTile.tileX, tileX, progress),
+		tileY: interpolate(easeOutBack, fromTile.tileY, tileY, progress),
 	}
 }
 
@@ -80,18 +81,14 @@ function getCellBackgroundColor(cell: Cell): string {
 		? cell.transitions.appear.progress
 		: 1;
 	const color = tileColors[Math.min(cell.value, 2048)];
-	return `rgba(${color}, ${Math.max(linear(-1, 1, progress), 0)})`;
+	return `rgba(${color}, ${Math.max(interpolate(linear, -1, 1, progress), 0)})`;
 }
 
 function getCellTextColor(cell: Cell): string {
 	const progress = cell.transitions?.appear
 		? cell.transitions.appear.progress
 		: 1;
-	return `rgba(0, 0, 0, ${Math.max(linear(-1, 1, progress), 0)})`;
-}
-
-function linear(from: number, to: number, progress: number) {
-	return from + ((to-from) * progress);
+	return `rgba(0, 0, 0, ${Math.max(interpolate(linear, -1, 1, progress), 0)})`;
 }
 
 function getTilePositionByCoordinate(x: number, y: number): { tileX: number, tileY: number } {
