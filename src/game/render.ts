@@ -1,7 +1,7 @@
 import config from './config';
 import { Cell } from './models/Cell';
 import { getBoard, getCoordinateByPosition, getPositionByCoordinate } from './state/board';
-import { interpolate, easeOutElastic, linear, easeOutBack } from './utils/easings';
+import { interpolate, linear, easeOutBack } from './utils/easings';
 
 const tileGridSize = { border: 10 };
 

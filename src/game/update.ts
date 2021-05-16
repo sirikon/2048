@@ -1,29 +1,23 @@
 import { getBoard } from './state/board'
 
-export function update(deltaTime: number): void {
+export function update(dt: number): void {
 	const board = getBoard();
-
 	for(const tile of board) {
 		for(const cell of tile) {
 			if (cell.transitions) {
-
-				if (cell.transitions.fromValue) {
-					cell.transitions.fromValue.progress = between(0, cell.transitions.fromValue.progress += (deltaTime * 0.005), 1)
-					if (cell.transitions.fromValue.progress === 1) delete cell.transitions.fromValue;
-				}
-
-				if (cell.transitions.fromPosition) {
-					cell.transitions.fromPosition.progress = between(0, cell.transitions.fromPosition.progress += (deltaTime * 0.005), 1);
-					if (cell.transitions.fromPosition.progress === 1) delete cell.transitions.fromPosition;
-				}
-
-				if (cell.transitions.appear) {
-					cell.transitions.appear.progress = between(0, cell.transitions.appear.progress += (deltaTime * 0.005), 1);
-					if (cell.transitions.appear.progress === 1) delete cell.transitions.appear;
-				}
-
+				cycleTransition(dt, cell.transitions, 'fromValue', 0.005);
+				cycleTransition(dt, cell.transitions, 'fromPosition', 0.005);
+				cycleTransition(dt, cell.transitions, 'appear', 0.005);
 			}
 		}
+	}
+}
+
+function cycleTransition<T extends { [key: string]: { progress: number } }>(dt: number, transitions: T, key: keyof T, speed: number) {
+	if (!transitions[key]) return;
+	transitions[key].progress = between(0, transitions[key].progress += (dt * speed), 1);
+	if (transitions[key].progress >= 1) {
+		delete transitions[key];
 	}
 }
 
