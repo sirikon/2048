@@ -3,9 +3,9 @@ import { getBoard } from './state/board'
 
 export function update(dt: number): void {
 	eachCell((cell) => {
-		cycleTransition(dt, cell.transitions, 'fromValue', seconds(0.4));
-		cycleTransition(dt, cell.transitions, 'fromPosition', seconds(0.4));
-		cycleTransition(dt, cell.transitions, 'appear', seconds(0.4));
+		cycleTransition(dt, cell.transitions, 'fromValue', seconds(0.3));
+		cycleTransition(dt, cell.transitions, 'fromPosition', seconds(0.3));
+		cycleTransition(dt, cell.transitions, 'appear', seconds(0.3));
 	})
 }
 
