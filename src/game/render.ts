@@ -1,6 +1,7 @@
 import config from './config';
 import { Cell } from './models/Cell';
 import { getBoard, getCoordinateByPosition, getPositionByCoordinate } from './state/board';
+import { getScore } from './state/game';
 import { interpolate, linear, easeOutBack } from './utils/easings';
 
 const tileGridSize = { border: 10 };
@@ -22,8 +23,10 @@ const tileColors: { [key: number]: string } = {
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 
+const scoreEl = document.getElementById('score') as HTMLSpanElement;
+
 export function render(): void {
-	
+	scoreEl.textContent = getScore().toString();
 	const tileSize = {
 		w: ( (canvas.width - (tileGridSize.border * (config.boardSize.w + 1))) / config.boardSize.w),
 		h: ( (canvas.height - (tileGridSize.border * (config.boardSize.h + 1))) / config.boardSize.h),

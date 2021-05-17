@@ -5,9 +5,10 @@ export interface CollapsedCell extends BaseCell {
 	fromValue?: number;
 }
 
-export function collapseColumn(column: BaseCell[][]): { cells: CollapsedCell[][], changed: boolean } {
+export function collapseColumn(column: BaseCell[][]): { cells: CollapsedCell[][], changed: boolean, points: number } {
 	const result: CollapsedCell[][] = [];
 	let changed = false;
+	let points = 0;
 
 	for(let i = 0; i < column.length; i++) {
 		const topCell = getTopCell(column, i);
@@ -16,6 +17,7 @@ export function collapseColumn(column: BaseCell[][]): { cells: CollapsedCell[][]
 
 		if (nextTopCell != null && nextTopCell.cell.value === topCell.value) {
 			changed = true;
+			points += topCell.value*2;
 			result.push([
 				{ value: topCell.value*2, fromIndex: i, fromValue: topCell.value },
 				{ value: nextTopCell.cell.value, fromIndex: i + nextTopCell.distance }
@@ -28,7 +30,7 @@ export function collapseColumn(column: BaseCell[][]): { cells: CollapsedCell[][]
 	}
 
 	const remaining = generateEmptyColumn(column.length - result.length);
-	return { cells: result.concat(remaining), changed }
+	return { cells: result.concat(remaining), changed, points }
 }
 
 function getTopCell(column: BaseCell[][], position: number): BaseCell | null {

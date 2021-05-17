@@ -4,6 +4,7 @@ import config from './game/config';
 import { loop } from './game/loop'
 import { collapseColumn } from './game/logic/collapseColumn';
 import { Cell } from './game/models/Cell';
+import { increaseScore } from './game/state/game';
 import { getBoard, resetBoard, getAvailablePositions, getPositionByCoordinate } from './game/state/board';
 
 function main() {
@@ -66,7 +67,8 @@ const keyHandlers: { [key: string]: () => void } = {
 
 function collapsePositions(positions: number[]): boolean {
 	const board = getBoard();
-	const { cells: column, changed } = collapseColumn(positions.map(p => board[p]));
+	const { cells: column, changed, points } = collapseColumn(positions.map(p => board[p]));
+	increaseScore(points);
 	for(let i = 0; i < positions.length; i++) {
 		board[positions[i]] = column[i].map(c => {
 			const result: Cell = {
