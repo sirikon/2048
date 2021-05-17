@@ -20,49 +20,58 @@ function main() {
 
 const keyHandlers: { [key: string]: () => void } = {
 	ArrowUp: () => {
-		let changed = false;
+		const columns: {x: number, y: number}[][] = [];
 		for(let x = 0; x < config.boardSize.w; x++) {
-			const positions = [];
+			const column: {x: number, y: number}[] = [];
 			for(let y = 0; y < config.boardSize.h; y++) {
-				positions.push(getPositionByCoordinate(x, y))
+				column.push({ x, y })
 			}
-			if (collapsePositions(positions)) changed = true;
+			columns.push(column);
 		}
-		changed && createRandomNewCell();
+		collapseColumns(columns);
 	},
 	ArrowDown: () => {
-		let changed = false;
+		const columns: {x: number, y: number}[][] = [];
 		for(let x = 0; x < config.boardSize.w; x++) {
-			const positions = [];
+			const column: {x: number, y: number}[] = [];
 			for(let y = config.boardSize.h-1; y >= 0; y--) {
-				positions.push(getPositionByCoordinate(x, y))
+				column.push({ x, y })
 			}
-			if (collapsePositions(positions)) changed = true;
+			columns.push(column);
 		}
-		changed && createRandomNewCell();
+		collapseColumns(columns);
 	},
 	ArrowLeft: () => {
-		let changed = false;
+		const columns: {x: number, y: number}[][] = [];
 		for(let y = 0; y < config.boardSize.h; y++) {
-			const positions = [];
+			const column: {x: number, y: number}[] = [];
 			for(let x = 0; x < config.boardSize.w; x++) {
-				positions.push(getPositionByCoordinate(x, y))
+				column.push({ x, y })
 			}
-			if (collapsePositions(positions)) changed = true;
+			columns.push(column);
 		}
-		changed && createRandomNewCell();
+		collapseColumns(columns);
 	},
 	ArrowRight: () => {
-		let changed = false;
+		const columns: {x: number, y: number}[][] = [];
 		for(let y = 0; y < config.boardSize.h; y++) {
-			const positions = [];
+			const column: {x: number, y: number}[] = [];
 			for(let x = config.boardSize.w-1; x >= 0; x--) {
-				positions.push(getPositionByCoordinate(x, y))
+				column.push({ x, y })
 			}
-			if (collapsePositions(positions)) changed = true;
+			columns.push(column);
 		}
-		changed && createRandomNewCell();
+		collapseColumns(columns);
 	}
+}
+
+function collapseColumns(columns: {x: number, y: number}[][]) {
+	let changed = false;
+	for(const column of columns) {
+		const positions = column.map(({ x, y }) => getPositionByCoordinate(x, y));
+		if (collapsePositions(positions)) changed = true;
+	}
+	changed && createRandomNewCell();
 }
 
 function collapsePositions(positions: number[]): boolean {
