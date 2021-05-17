@@ -3,10 +3,14 @@ import { getBoard } from './state/board'
 
 export function update(dt: number): void {
 	eachCell((cell) => {
-		cycleTransition(dt, cell.transitions, 'fromValue', 0.005);
-		cycleTransition(dt, cell.transitions, 'fromPosition', 0.005);
-		cycleTransition(dt, cell.transitions, 'appear', 0.005);
+		cycleTransition(dt, cell.transitions, 'fromValue', seconds(0.4));
+		cycleTransition(dt, cell.transitions, 'fromPosition', seconds(0.4));
+		cycleTransition(dt, cell.transitions, 'appear', seconds(0.4));
 	})
+}
+
+function seconds(s:number): number {
+	return s * 1000;
 }
 
 function eachCell(cb: (c: Cell) => void) {
@@ -15,10 +19,10 @@ function eachCell(cb: (c: Cell) => void) {
 	}
 }
 
-function cycleTransition<T extends { [key: string]: { progress: number } }>(dt: number, transitions: T, key: keyof T, speed: number) {
+function cycleTransition<T extends { [key: string]: { progress: number } }>(dt: number, transitions: T, key: keyof T, durationInMs: number) {
 	if (!transitions[key]) return;
 	const transition = transitions[key];
-	transition.progress = between(0, transition.progress += (dt * speed), 1);
+	transition.progress = between(0, transition.progress += (dt / durationInMs), 1);
 	if (transition.progress >= 1) {
 		delete transitions[key];
 	}
