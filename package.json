@@ -1,15 +1,15 @@
 {
-    "scripts": {
-        "start": "teseract serve",
-        "lint": "teseract lint",
-        "lint:fix": "teseract lint --fix",
-        "release": "teseract release",
-        "test": "teseract test"
-    },
-    "devDependencies": {
-        "@types/chai": "^4.2.16",
-        "chai": "^4.3.4",
-        "teseract": "^2.0.4",
-        "typescript": "^4.2.4"
-    }
+  "scripts": {
+    "start": "teseract serve",
+    "lint": "teseract lint",
+    "lint:fix": "teseract lint --fix",
+    "release": "teseract release",
+    "test": "teseract test"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.16",
+    "chai": "^4.3.4",
+    "teseract": "^2.2.2",
+    "typescript": "^4.2.4"
+  }
 }

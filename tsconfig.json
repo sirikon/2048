@@ -1,9 +1,16 @@
 {
-    "compilerOptions": {
-        "esModuleInterop": true,
-        "strict": true,
-        "lib": ["ES2019", "DOM"],
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules/**/*.ts"]
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "strict": true,
+    "lib": [
+      "ES2019",
+      "DOM"
+    ],
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**/*.ts"
+  ]
 }
