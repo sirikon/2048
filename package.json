@@ -9,8 +9,7 @@
     "devDependencies": {
         "@types/chai": "^4.2.16",
         "chai": "^4.3.4",
-        "sass": "^1.32.11",
-        "teseract": "git://github.com/sirikon/teseract.git",
+        "teseract": "^2.0.4",
         "typescript": "^4.2.4"
     }
 }

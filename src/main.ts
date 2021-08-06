@@ -1,5 +1,6 @@
 'use strict';
 
+import './style.scss'
 import config from './game/config';
 import { loop } from './game/loop'
 import { collapseColumn } from './game/logic/collapseColumn';
